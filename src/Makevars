@@ -1,0 +1,10 @@
+PKGROOT=..
+
+PKG_CPPFLAGS= -I$(PKGROOT)/include -I$(PKGROOT)/deps/boost_math/include
+
+CXX_STD=CXX17
+
+OBJECTS = \
+    gig.o \
+    R_gig.o \
+    cpp11.o

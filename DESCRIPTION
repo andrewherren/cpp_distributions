@@ -1,0 +1,21 @@
+Package: customdists
+Title: Custom C++ samplers for various distributions that are missing from the C++ standard library.
+Version: 0.0.0.9000
+Authors@R: 
+  c(
+    person("Drew", "Herren", email = "drewherrenopensource@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4109-6611"))
+  )
+Description: Custom C++ samplers for various distributions that are missing from the C++ standard library (and boost in many cases)
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+LinkingTo: 
+    cpp11
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+SystemRequirements: C++17
+Imports: 
+    stats
