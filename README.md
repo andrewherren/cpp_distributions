@@ -4,8 +4,6 @@ Custom C++ samplers for various distributions that are missing from the C++ stan
 
 ## Generalize Inverse Gaussian (GIG) Distribution
 
-**NOTE**: This is 
-
 The [GIGrvg](https://cran.r-project.org/web/packages/GIGrvg/index.html) R package implements a generalized inverse Gaussian sampler based on Hörmann and Leydold (2014), however:
 
 * Using the `GIGrvg`'s low-level code in python or standalone C++ programs is challenging (one way to do this is to simply vendor code from the `GIGrvg` package into a new project with Python linkage, but this is still much more work than placing `LinkingTo: GIGrvg` in a `DESCRIPTION` file of an R package)
