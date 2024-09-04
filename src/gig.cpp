@@ -26,7 +26,7 @@ double SampleGIG(double p, double a, double b) {
 
 double SampleGIGHormanLeydold(double p, double beta) {
   // TODO: placeholder to run the "sampler" end-to-end in R
-  // This function will eventually be a 
+  // This function will eventually implement the Hörmann and Leydold (2014) sampler
   return 1.;
 }
 
