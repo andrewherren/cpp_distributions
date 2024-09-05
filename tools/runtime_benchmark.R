@@ -1,4 +1,6 @@
 library(microbenchmark)
+library(customdists)
+library(GIGrvg)
 
 n <- 100000
 
