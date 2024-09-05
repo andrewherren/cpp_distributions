@@ -6,7 +6,7 @@
 distribution, using the default parameterization in
 https://en.wikipedia.org/wiki/Generalized_inverse_Gaussian_distribution}
 \usage{
-sample_gig(n, p, a, b)
+sample_gig(n, p, a, b, random_seed = -1)
 }
 \arguments{
 \item{n}{Number of samples to draw}
@@ -21,6 +21,8 @@ if either of \code{p} or \code{b} is zero.}
 
 \item{b}{Third parameter of the distribution. Must be nonnegative and cannot be zero
 if either of \code{p} or \code{a} is zero.}
+
+\item{random_seed}{Optional seed for the C++ random number generator.}
 }
 \value{
 Vector of length \code{n}

@@ -34,3 +34,4 @@
 
 # IDE files
 *.vscode
+inst/doc

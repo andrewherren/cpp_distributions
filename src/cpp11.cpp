@@ -6,16 +6,16 @@
 #include <R_ext/Visibility.h>
 
 // R_gig.cpp
-cpp11::writable::doubles sample_gig_cpp(int n, double p, double a, double b);
-extern "C" SEXP _customdists_sample_gig_cpp(SEXP n, SEXP p, SEXP a, SEXP b) {
+cpp11::writable::doubles sample_gig_cpp(int n, double p, double a, double b, int random_seed);
+extern "C" SEXP _customdists_sample_gig_cpp(SEXP n, SEXP p, SEXP a, SEXP b, SEXP random_seed) {
   BEGIN_CPP11
-    return cpp11::as_sexp(sample_gig_cpp(cpp11::as_cpp<cpp11::decay_t<int>>(n), cpp11::as_cpp<cpp11::decay_t<double>>(p), cpp11::as_cpp<cpp11::decay_t<double>>(a), cpp11::as_cpp<cpp11::decay_t<double>>(b)));
+    return cpp11::as_sexp(sample_gig_cpp(cpp11::as_cpp<cpp11::decay_t<int>>(n), cpp11::as_cpp<cpp11::decay_t<double>>(p), cpp11::as_cpp<cpp11::decay_t<double>>(a), cpp11::as_cpp<cpp11::decay_t<double>>(b), cpp11::as_cpp<cpp11::decay_t<int>>(random_seed)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_customdists_sample_gig_cpp", (DL_FUNC) &_customdists_sample_gig_cpp, 4},
+    {"_customdists_sample_gig_cpp", (DL_FUNC) &_customdists_sample_gig_cpp, 5},
     {NULL, NULL, 0}
 };
 }

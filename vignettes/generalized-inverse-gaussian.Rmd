@@ -1,0 +1,132 @@
+---
+title: "Generalized Inverse Gaussian sampler"
+output: rmarkdown::html_vignette
+bibliography: vignettes.bib
+vignette: >
+  %\VignetteIndexEntry{Generalized Inverse Gaussian}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(customdists)
+library(GIGrvg)
+```
+
+# Overview
+
+The [Generalized Inverse Gaussian](https://en.wikipedia.org/wiki/Generalized_inverse_Gaussian_distribution) (GIG) distribution has two common parameterizations. The first parameterization defines a PDF in terms of $\lambda$, $a$, and $b$,
+
+\begin{equation*}
+\begin{aligned}
+f(x \mid \lambda, a, b) &= \frac{(a/b)^{\lambda / 2}}{2K_{\lambda}(\sqrt{ab})} x^{\lambda - 1}\exp\left(-\frac{1}{2} \left(\frac{b}{x} + ax\right)\right),
+\end{aligned}
+\end{equation*}
+
+where $K_{\lambda}(\cdot)$ is the [modified Bessel function of the second kind](https://mathworld.wolfram.com/ModifiedBesselFunctionoftheSecondKind.html).
+Setting $\alpha = \sqrt{b/a}$ and $\beta = \sqrt{ab}$, we can instead parameterize the GIG as
+
+\begin{equation*}
+\begin{aligned}
+f(x \mid \lambda, \alpha, \beta) &= \frac{1}{2 \alpha K_{\lambda}(\beta)} \left(\frac{x}{\alpha}\right)^{\lambda - 1}\exp\left(-\frac{\beta}{2} \left(\frac{\alpha}{x} + \frac{x}{\alpha}\right)\right).
+\end{aligned}
+\end{equation*}
+
+We note further that $\alpha$ becomes a scale parameter of the distribution, so we may sample 
+$X \sim \text{GIG}(\lambda, 1, \beta)$ and then return $Y = \alpha X$.
+The @hormann2014generating sampler dispatches three different samplers depending on the parameters, so we demonstrate the `customdists` sampler in each case.
+
+## Case 1: $\lambda \geq 1$ or $\beta > 1$
+
+```{r}
+n <- 100000
+lambda <- 1.2
+a <- 1.7
+b <- 1.5
+draws_cdists <- sample_gig(n, lambda, a, b)
+hist(draws_cdists, breaks = 1000, freq = F, 
+     main = "Histogram (customdists)")
+```
+
+Sample from `GIGrvg` with the same parameters (noting that the parameter $b$ in the original parameterization of this distribution is the second parameter in `GIGrvg`, but the third parameter in `customdists`).
+
+```{r}
+draws_gigrvg <- rgig(n, lambda, b, a)
+hist(draws_gigrvg, breaks = 1000, freq = F, 
+     main = "Histogram (GIGrvg)")
+```
+
+Compare distributions
+
+```{r}
+x <- quantile(draws_cdists, probs = seq(0.01, 0.99, length.out = 100))
+y <- quantile(draws_gigrvg, probs = seq(0.01, 0.99, length.out = 100))
+plot(x,y); abline(0,1,col="blue",lwd=3)
+```
+
+## Case 2: $\lambda < 1$ and $\beta < 1$ but $\beta > \min(1 / 2, 2\sqrt{1-\lambda} / 3)$
+
+```{r}
+n <- 100000
+lambda <- 0.5
+a <- 0.5
+b <- 0.75
+sqrt(a*b) > min(0.5, 2*sqrt(1-lambda)/3)
+draws_cdists <- sample_gig(n, lambda, a, b)
+hist(draws_cdists, breaks = 1000, freq = F, 
+     main = "Histogram (customdists)")
+```
+
+Sample from `GIGrvg` with the same parameters (noting that the parameter $b$ in the original parameterization of this distribution is the second parameter in `GIGrvg`, but the third parameter in `customdists`).
+
+```{r}
+draws_gigrvg <- rgig(n, lambda, b, a)
+hist(draws_gigrvg, breaks = 1000, freq = F, 
+     main = "Histogram (GIGrvg)")
+```
+
+Compare distributions
+
+```{r}
+x <- quantile(draws_cdists, probs = seq(0.01, 0.99, length.out = 100))
+y <- quantile(draws_gigrvg, probs = seq(0.01, 0.99, length.out = 100))
+plot(x,y); abline(0,1,col="blue",lwd=3)
+```
+
+## Case 3: $\lambda < 1$ and $\beta < 1$ and $\beta \leq \min(1 / 2, 2\sqrt{1-\lambda} / 3)$
+
+```{r}
+n <- 100000
+lambda <- 0.5
+a <- 0.5
+b <- 0.25
+sqrt(a*b) <= min(0.5, 2*sqrt(1-lambda)/3)
+draws_cdists <- sample_gig(n, lambda, a, b)
+hist(draws_cdists, breaks = 1000, freq = F, 
+     main = "Histogram (customdists)")
+```
+
+Sample from `GIGrvg` with the same parameters (noting that the parameter $b$ in the original parameterization of this distribution is the second parameter in `GIGrvg`, but the third parameter in `customdists`).
+
+```{r}
+draws_gigrvg <- rgig(n, lambda, b, a)
+hist(draws_gigrvg, breaks = 1000, freq = F, 
+     main = "Histogram (GIGrvg)")
+```
+
+Compare distributions
+
+```{r}
+x <- quantile(draws_cdists, probs = seq(0.01, 0.99, length.out = 100))
+y <- quantile(draws_gigrvg, probs = seq(0.01, 0.99, length.out = 100))
+plot(x,y); abline(0,1,col="blue",lwd=3)
+```
+
+# References

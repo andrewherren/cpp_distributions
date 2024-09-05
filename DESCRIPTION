@@ -14,7 +14,8 @@ LinkingTo:
     cpp11
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown, 
+    GIGrvg
 VignetteBuilder: knitr
 SystemRequirements: C++17
 Imports: 

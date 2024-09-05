@@ -11,6 +11,7 @@
 #' if either of `p` or `b` is zero.
 #' @param b Third parameter of the distribution. Must be nonnegative and cannot be zero 
 #' if either of `p` or `a` is zero.
+#' @param random_seed Optional seed for the C++ random number generator.
 #'
 #' @return Vector of length `n`
 #' @export
@@ -22,7 +23,7 @@
 #' b <- 0.6
 #' gig_draws <- sample_gig(n,p,a,b)
 #' hist(gig_draws)
-sample_gig <- function(n, p, a, b) {
-    warning("sample_gig has not yet been implemented. The output is constant. Do not rely on this function if this warning is displayed at runtime.")
-    sample_gig_cpp(n, p, a, b)
+sample_gig <- function(n, p, a, b, random_seed = -1) {
+    # warning("sample_gig has not yet been implemented. The output is constant. Do not rely on this function if this warning is displayed at runtime.")
+    sample_gig_cpp(n, p, a, b, random_seed)
 }
